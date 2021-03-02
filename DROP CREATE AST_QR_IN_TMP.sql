@@ -177,15 +177,15 @@ GO
 USE [FINN_ADMIFARM]
 GO
 
-/****** Object:  Table [dbo].[AST_QR_IN_TMP]    Script Date: 02/28/2021 23:46:58 ******/
-IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AST_QR_IN_TMP]') AND type in (N'U'))
-DROP TABLE [dbo].[AST_QR_IN_TMP]
+/****** Object:  Table [dbo].[AST_QR_IN]    Script Date: 02/28/2021 23:46:58 ******/
+IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AST_QR_IN]') AND type in (N'U'))
+DROP TABLE [dbo].[AST_QR_IN]
 GO
 
 USE [FINN_ADMIFARM]
 GO
 
-/****** Object:  Table [dbo].[AST_QR_IN_TMP]    Script Date: 02/28/2021 23:46:58 ******/
+/****** Object:  Table [dbo].[AST_QR_IN]    Script Date: 02/28/2021 23:46:58 ******/
 SET ANSI_NULLS ON
 GO
 
@@ -195,24 +195,24 @@ GO
 SET ANSI_PADDING ON
 GO
 
-CREATE TABLE [dbo].[AST_QR_IN_TMP](
+CREATE TABLE [dbo].[AST_QR_IN](
 	[AS_ID] [int] NULL,
 	[VER] [int] NULL,
 	[FECHA_COMPROBANTE] [varchar](8) NULL,
 	[CUIT_EMISOR] [varchar](255) NULL
 ) ON [PRIMARY]
 SET ANSI_PADDING OFF
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [TIPO_COMPROBANTE] [varchar](50) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [TIPO_COMPROBANTE] [varchar](50) NULL
 SET ANSI_PADDING ON
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [PUNTO_VENTA] [varchar](4) NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [NUMERO_COMPROBANTE] [varchar](8) NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [IMPORTE_TOTAL] [int] NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [MONEDA] [varchar](3) NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [MONEDA_CTZ] [int] NOT NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [TIPODOC_RC] [varchar](10) NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [NRODOC_RC] [varchar](12) NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [TIPOCODAUT] [varchar](1) NOT NULL
-ALTER TABLE [dbo].[AST_QR_IN_TMP] ADD [CODAUT] [varchar](50) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [PUNTO_VENTA] [varchar](4) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [NUMERO_COMPROBANTE] [varchar](8) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [IMPORTE_TOTAL] [varchar](20) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [MONEDA] [varchar](3) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [MONEDA_CTZ] [varchar](20) NOT NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [TIPODOC_RC] [varchar](10) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [NRODOC_RC] [varchar](12) NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [TIPOCODAUT] [varchar](1) NOT NULL
+ALTER TABLE [dbo].[AST_QR_IN] ADD [CODAUT] [varchar](50) NULL
 GO
 
 SET ANSI_PADDING OFF
@@ -221,7 +221,7 @@ GO
 USE [FINN_ADMIFARM]
 GO
 
-INSERT [dbo].[AST_QR_IN_TMP] ( 
+INSERT [dbo].[AST_QR_IN] ( 
 VER,	FECHA_COMPROBANTE,	CUIT_EMISOR,	TIPO_COMPROBANTE,	PUNTO_VENTA,	NUMERO_COMPROBANTE,	IMPORTE_TOTAL,	MONEDA,	MONEDA_CTZ,	TIPODOC_RC,	NRODOC_RC,		TIPOCODAUT,	CODAUT,           AS_ID ) VALUES (
 '1',	'20210208',			'30712386734',	'01',				'0023',			'00000094',			'4174500',		'PES',	'100',		'80',		'30715468340',	'E',		'71064452970189', 866614 )
 
@@ -255,6 +255,11 @@ CREATE PROCEDURE [dbo].[AST_QR_IN] (
 )
 AS
 BEGIN
+	
+	SELECT *
+	INTO #tmp
+	FROM [dbo].[AST_QR_IN]
+	
 	declare @resultado varchar(8000)
 	SELECT @resultado='"asId":'+convert(varchar, as_id)
 		+',"ver":'+convert(varchar, ver)
@@ -271,7 +276,7 @@ BEGIN
 		+',"tipoCodAut":"'+tipocodaut
 		+'","codAut":"'+codaut
 		+'"'
-	FROM [dbo].[AST_QR_IN_TMP]
+	FROM [dbo].[AST_QR_IN]
 
 	declare @sql varchar(8000)
 	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@resultado+'}"'

@@ -21,4 +21,7 @@ public class Asiento {
 	@Column(name = "ast_qr")
 	private byte[] astQr;
 
+	public String toString() {
+		return "[asId="+asId+", [astQr="+(astQr==null?"null":"(imagen->byte["+astQr.length+"])")+"]";
+	}
 }

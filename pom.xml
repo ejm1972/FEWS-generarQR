@@ -10,7 +10,6 @@
 	<packaging>jar</packaging>
 	<version>1.0.0</version>
 	<name>generaqr</name>
-	<url>http://maven.apache.org</url>
 
 	<dependencies>
 		<!--  -->
@@ -47,6 +46,7 @@
 			<version>2.8.6</version>
 		</dependency>
 		
+		<!--  -->
 		<dependency>
 			<groupId>org.slf4j</groupId>
 			<artifactId>slf4j-api</artifactId>
@@ -63,9 +63,8 @@
 		<dependency>
 			<groupId>org.hibernate</groupId>
 			<artifactId>hibernate-entitymanager</artifactId>
-			<version>5.4.28.Final</version>
+			<version>5.1.9.Final</version>
 		</dependency>
-		
 		<dependency>
 			<groupId>org.hibernate.javax.persistence</groupId>
 			<artifactId>hibernate-jpa-2.1-api</artifactId>
@@ -100,8 +99,8 @@
                 <version>2.3.2</version>
                 <configuration>
 <!-- Versión de JDK con la cual se ha construido el proyecto -->
-                    <source>1.7</source>
-                    <target>1.7</target>
+                    <source>1.8</source>
+                    <target>1.8</target>
                     <encodong>UTF-8</encodong>
                 </configuration>
             </plugin>    

@@ -52,17 +52,21 @@ public class GeneradorQr {
 		if (!path.exists()) {
 			path.mkdir();
 		}
+		
+		log.debug("qrFile->ImageIO.write()");
 		FileOutputStream qrFile = null;
 		qrFile = new FileOutputStream(imagePathFile.concat(imageFormat));
 		ImageIO.write(image, imageFormat, qrFile);
 		qrFile.close();
 				
+		log.debug("baos->ImageIO.write()");
 		ByteArrayOutputStream baos = new ByteArrayOutputStream();
 		ImageIO.write(image, imageFormat, baos );
 		baos.flush();
 		byte[] imageAsBytes = baos.toByteArray();
 		baos.close();
 		
+		log.debug("resp->RespuestaQr()");
 		RespuestaQr resp = new RespuestaQr();	
 		resp.setImagenQr(imageAsBytes);
 		resp.setTextoQr(textoQr);
@@ -71,7 +75,10 @@ public class GeneradorQr {
 	}
 	
 	private BufferedImage crear(String datos, int ancho, int altura) throws WriterException {
-        BitMatrix matrix;
+        
+		log.debug("Ejecucion crear()");
+		
+		BitMatrix matrix;
         Writer escritor = new QRCodeWriter();
         matrix = escritor.encode(datos, BarcodeFormat.QR_CODE, ancho, altura);
         

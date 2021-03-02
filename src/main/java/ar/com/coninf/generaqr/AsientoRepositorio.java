@@ -1,5 +1,7 @@
 package ar.com.coninf.generaqr;
 
+import java.util.Map;
+
 import javax.persistence.EntityManager;
 import javax.persistence.EntityManagerFactory;
 import javax.persistence.EntityTransaction;
@@ -25,13 +27,22 @@ public class AsientoRepositorio {
 
 	public AsientoRepositorio() {
 		try {
-		factory = Persistence.createEntityManagerFactory(persistenceUnit);
-		manager = factory.createEntityManager();
+			factory = Persistence.createEntityManagerFactory(persistenceUnit);
+			manager = factory.createEntityManager();
 		} catch (Exception e) {
 			log.error("Error --->", e);
 		}
 	}
 
+	public AsientoRepositorio(Map<String,String> map) {
+		try {
+			factory = Persistence.createEntityManagerFactory(persistenceUnit, map);
+			manager = factory.createEntityManager();
+		} catch (Exception e) {
+			log.error("Error --->", e);
+		}
+	}
+	
 	public void close() {
 		manager.close();
 		factory.close();		
