@@ -21,4 +21,5 @@ public class DatoQr {
 	private Long nroDocRec;
 	private String tipoCodAut;
 	private String codAut;
+	private Integer asId;
 }

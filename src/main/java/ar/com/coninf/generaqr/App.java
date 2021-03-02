@@ -1,7 +1,6 @@
 package ar.com.coninf.generaqr;
 
 import java.io.IOException;
-import java.util.Arrays;
 
 import com.google.gson.Gson;
 import com.google.gson.JsonSyntaxException;
@@ -27,7 +26,7 @@ public class App {
         }
         
         String json = args[0];
-        
+        AsientoRepositorio asientoRepo = new AsientoRepositorio();
 		try {
 			DatoQr datoQr = gson.fromJson(json, DatoQr.class);
 		
@@ -35,8 +34,15 @@ public class App {
 			
 			log.info(resp.getTextoQr());
 			
+			Asiento asiento = new Asiento();
+			asiento.setAsId(datoQr.getAsId());
+			asiento.setAstQr(resp.getImagenQr());
+			asientoRepo.modify(asiento);
+			asientoRepo.close();
+			
 		} catch (JsonSyntaxException | IOException | WriterException e) {
 			log.error("Error ---->", e);
+			asientoRepo.close();
 		}
     
 	}
