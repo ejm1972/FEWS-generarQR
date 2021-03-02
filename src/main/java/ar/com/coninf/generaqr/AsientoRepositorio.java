@@ -24,8 +24,12 @@ public class AsientoRepositorio {
 	private String persistenceUnit = "ceresDB";
 
 	public AsientoRepositorio() {
+		try {
 		factory = Persistence.createEntityManagerFactory(persistenceUnit);
 		manager = factory.createEntityManager();
+		} catch (Exception e) {
+			log.error("Error --->", e);
+		}
 	}
 
 	public void close() {

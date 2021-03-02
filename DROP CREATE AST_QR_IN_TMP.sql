@@ -196,7 +196,8 @@ SET ANSI_PADDING ON
 GO
 
 CREATE TABLE [dbo].[AST_QR_IN_TMP](
-	[VER] [int] NOT NULL,
+	[AS_ID] [int] NULL,
+	[VER] [int] NULL,
 	[FECHA_COMPROBANTE] [varchar](8) NULL,
 	[CUIT_EMISOR] [varchar](255) NULL
 ) ON [PRIMARY]
@@ -221,8 +222,8 @@ USE [FINN_ADMIFARM]
 GO
 
 INSERT [dbo].[AST_QR_IN_TMP] ( 
-VER,	FECHA_COMPROBANTE,	CUIT_EMISOR,	TIPO_COMPROBANTE,	PUNTO_VENTA,	NUMERO_COMPROBANTE,	IMPORTE_TOTAL,	MONEDA,	MONEDA_CTZ,	TIPODOC_RC,	NRODOC_RC,		TIPOCODAUT,	CODAUT ) VALUES (
-'1',	'20210208',			'30712386734',	'01',				'0023',			'00000094',			'4174500',		'PES',	'100',		'80',		'30715468340',	'E',		'71064452970189')
+VER,	FECHA_COMPROBANTE,	CUIT_EMISOR,	TIPO_COMPROBANTE,	PUNTO_VENTA,	NUMERO_COMPROBANTE,	IMPORTE_TOTAL,	MONEDA,	MONEDA_CTZ,	TIPODOC_RC,	NRODOC_RC,		TIPOCODAUT,	CODAUT,           AS_ID ) VALUES (
+'1',	'20210208',			'30712386734',	'01',				'0023',			'00000094',			'4174500',		'PES',	'100',		'80',		'30715468340',	'E',		'71064452970189', 866614 )
 
 USE [FINN_ADMIFARM]
 GO
@@ -254,15 +255,32 @@ CREATE PROCEDURE [dbo].[AST_QR_IN] (
 )
 AS
 BEGIN
-
-	SELECT *, 866614
+	declare @resultado varchar(8000)
+	SELECT @resultado='"asId":'+convert(varchar, as_id)
+		+',"ver":'+convert(varchar, ver)
+		+',"fecha":"'+fecha_comprobante
+		+'","cuit":'+cuit_emisor
+		+',"ptoVta":'+punto_venta
+		+',"tipoCmp":'+tipo_comprobante
+		+',"nroCmp":'+numero_comprobante
+		+',"importe":'+convert(varchar, importe_total)
+		+',"moneda":"'+moneda
+		+'","ctz":'+convert(varchar, moneda_ctz)
+		+',"tipoDocRec":'+tipodoc_rc
+		+',"nroDocRec":'+nrodoc_rc
+		+',"tipoCodAut":"'+tipocodaut
+		+'","codAut":"'+codaut
+		+'"'
 	FROM [dbo].[AST_QR_IN_TMP]
 
 	declare @sql varchar(8000)
-	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{"ver":1,"fecha":"20201215","cuit":23043964399,"ptoVta":6,"tipoCmp":6,"nroCmp":3445,"importe":440601,"moneda":"PES","ctz":100,"tipoDocRec":99,"nroDocRec":0,"tipoCodAut":"E","codAut":"70509985005168"}"'
+	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@resultado+'}"'
 	select @sql
 
-	exec master..xp_cmdshell @sql
+	exec master..xp_cmdshell @sql, 'no_output'
+
+	select AS_ID, AST_QR
+	from asiento
 
 END
 GO

@@ -26,7 +26,7 @@ public class App {
         }
         
         String json = args[0];
-        AsientoRepositorio asientoRepo = new AsientoRepositorio();
+        AsientoRepositorio asientoRepo = null;
 		try {
 			DatoQr datoQr = gson.fromJson(json, DatoQr.class);
 		
@@ -35,6 +35,7 @@ public class App {
 			log.info(resp.getTextoQr());
 			
 			Asiento asiento = new Asiento();
+			asientoRepo = new AsientoRepositorio();
 			asiento.setAsId(datoQr.getAsId());
 			asiento.setAstQr(resp.getImagenQr());
 			asientoRepo.modify(asiento);
@@ -42,8 +43,9 @@ public class App {
 			
 		} catch (JsonSyntaxException | IOException | WriterException e) {
 			log.error("Error ---->", e);
-			asientoRepo.close();
+			if (asientoRepo!=null)
+				asientoRepo.close();
 		}
-    
+		
 	}
 }
