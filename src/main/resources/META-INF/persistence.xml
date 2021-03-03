@@ -6,18 +6,6 @@
     
     <persistence-unit name="ceresDB">
     	<provider>org.hibernate.ejb.HibernatePersistence</provider>
-        <properties>
-            <property name="javax.persistence.jdbc.url" value="jdbc:jtds:sqlserver://localhost:1433/CERES_DB" />
-            <property name="javax.persistence.jdbc.user" value="sa" />
-            <property name="javax.persistence.jdbc.password" value="XXXXXX" />
-            <property name="javax.persistence.jdbc.driver" value="net.sourceforge.jtds.jdbc.Driver" />
-            <property name="javax.persistence.jdbc.dataSource.schema" value="dbo" />
-			<property name="javax.persistence.jdbc.dataSource.catalog" value="CERES_DB" />
-            <property name="hibernate.show_sql" value="true" />
-            <property name="hibernate.format_sql" value="false" />
-            <property name="hibernate.ddl_auto" value="none" />
-            <property name="hibernate.dialect" value="org.hibernate.dialect.SQLServerDialect" />
-        </properties>
     </persistence-unit>
     
 </persistence>

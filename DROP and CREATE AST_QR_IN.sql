@@ -99,8 +99,8 @@ WHERE Asiento.AS_ID = @@AS_ID
 	from #tmp
 
 	declare @sql varchar(8000)
-	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' c: generaQr'
-	select @sql
+	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' FINN_ADMIFARM c: \generaQr'
+	--select @sql
 
 	exec master..xp_cmdshell @sql
 --FIN-GENERAQR----------------------------------------

@@ -1,3 +1,3 @@
-%3
-cd %4
-java -jar generaqr.jar %1 %2
+%4
+cd %5
+java -jar generaqr.jar %1 %2 %3

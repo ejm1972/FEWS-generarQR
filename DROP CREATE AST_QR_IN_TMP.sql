@@ -280,7 +280,7 @@ BEGIN
 	FROM [dbo].[AST_QR_IN_TMP]
 
 	declare @sql varchar(8000)
-	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' d: \FacturaElectronicaAfip\Java\generaQr'
+	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' FINN_ADMIFARM d: \FacturaElectronicaAfip\Java\generaQr'
 	select @sql
 
 	exec master..xp_cmdshell @sql

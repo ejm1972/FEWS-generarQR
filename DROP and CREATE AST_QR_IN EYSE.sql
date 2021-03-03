@@ -1,4 +1,4 @@
-USE [FINN_EYSE_GBO]
+USE [FINN_EYSE]
 GO
 
 /****** Object:  StoredProcedure [dbo].[AST_QR_IN]    Script Date: 03/02/2021 08:16:48 ******/
@@ -6,7 +6,7 @@ IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AST_Q
 DROP PROCEDURE [dbo].[AST_QR_IN]
 GO
 
-USE [FINN_EYSE_GBO]
+USE [FINN_EYSE]
 GO
 
 /****** Object:  StoredProcedure [dbo].[AST_QR_IN]    Script Date: 03/02/2021 08:16:48 ******/
@@ -99,8 +99,8 @@ WHERE Asiento.AS_ID = @@AS_ID
 	from #tmp
 
 	declare @sql varchar(8000)
-	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' c: generaQr'
-	select @sql
+	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' FINN_EYSE c: \generaQr'
+	--select @sql
 
 	exec master..xp_cmdshell @sql
 --FIN-GENERAQR----------------------------------------

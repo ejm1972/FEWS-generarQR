@@ -24,7 +24,14 @@ public class App {
 	private static final String FALSE = "false";
 	
 	public static void main( String[] args ) {
-		
+
+        for (int i = 0; i < args.length; ++i) {
+            log.debug("args[{}]: {}", i, args[i]);
+        }
+        String json = args[0];
+        Integer asId = Integer.valueOf(args[1]);
+        String baseDato = args[2];
+        
 		Gson gson = new Gson();
 		GeneradorQr gen = new GeneradorQr();
 		RespuestaQr resp = null;
@@ -36,15 +43,9 @@ public class App {
         }
         
 		configurarLog(prop);
-
-        for (int i = 0; i < args.length; ++i) {
-            log.debug("args[{}]: {}", i, args[i]);
-        }
-        String json = args[0];
-        Integer asId = Integer.valueOf(args[1]);
         
         AsientoRepositorio asientoRepo;
-        Map<String, String> map = configurarAccesoDatos(prop);
+        Map<String, String> map = configurarAccesoDatos(prop, baseDato);
         if (map.isEmpty()) {
         	log.error("Error cargando configuracion de acceso a datos");
         	return;
@@ -91,15 +92,15 @@ public class App {
 	}
      
 	
-	private static Map<String, String> configurarAccesoDatos(Properties prop) {
+	private static Map<String, String> configurarAccesoDatos(Properties prop, String baseDato) {
 		Map<String, String> persistenceMap = new HashMap<>();
 		
-		persistenceMap.put("javax.persistence.jdbc.url"					, prop.getProperty("javax.persistence.jdbc.url"));
+		persistenceMap.put("javax.persistence.jdbc.url"					, prop.getProperty("javax.persistence.jdbc.url").replace("CERES_DB", baseDato));
 		persistenceMap.put("javax.persistence.jdbc.user"				, prop.getProperty("javax.persistence.jdbc.user"));
 		persistenceMap.put("javax.persistence.jdbc.password"			, prop.getProperty("javax.persistence.jdbc.password"));
 		persistenceMap.put("javax.persistence.jdbc.driver"				, prop.getProperty("javax.persistence.jdbc.driver"));
 		persistenceMap.put("javax.persistence.jdbc.dataSource.schema"	, prop.getProperty("javax.persistence.jdbc.dataSource.schema"));
-		persistenceMap.put("javax.persistence.jdbc.dataSource.catalog"	, prop.getProperty("javax.persistence.jdbc.dataSource.catalog"));
+		persistenceMap.put("javax.persistence.jdbc.dataSource.catalog"	, baseDato);
 		persistenceMap.put("hibernate.show_sql"							, prop.getProperty("hibernate.show_sql",FALSE));
 		persistenceMap.put("hibernate.format_sql"						, prop.getProperty("hibernate.format_sql",FALSE));
 		persistenceMap.put("hibernate.ddl_auto"							, prop.getProperty("hibernate.ddl_auto",FALSE));
