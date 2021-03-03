@@ -12,6 +12,7 @@ GO
 RECONFIGURE;  
 GO
 
+	declare @bd_actual varchar(100) = db_name()
 	declare @jsonQr varchar(8000)
 	declare @as_id varchar(20)
 	SELECT @as_id=convert(varchar, as_id)
@@ -32,7 +33,7 @@ GO
 	FROM [dbo].[AST_QR_IN_TMP]
 
 	declare @sql varchar(8000)
-	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' CERES_DB d: \FacturaElectronicaAfip\Java\generaQr'
+	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' '+@bd_actual+' d: \FacturaElectronicaAfip\Java\generaQr'
 	select @sql
 
 	exec master..xp_cmdshell @sql

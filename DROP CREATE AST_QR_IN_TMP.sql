@@ -1,4 +1,4 @@
-USE [FINN_Admifarm]
+USE FINN_Admifarm
 GO
 
 /****** Object:  Table [dbo].[Asiento]    Script Date: 01/03/2021 0:08:20 ******/
@@ -174,15 +174,9 @@ GO
 INSERT INTO ASIENTO (AS_ID) VALUES (866614)
 GO
 
-USE [FINN_ADMIFARM]
-GO
-
 /****** Object:  Table [dbo].[AST_QR_IN_TMP]    Script Date: 02/28/2021 23:46:58 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AST_QR_IN_TMP]') AND type in (N'U'))
 DROP TABLE [dbo].[AST_QR_IN_TMP]
-GO
-
-USE [FINN_ADMIFARM]
 GO
 
 /****** Object:  Table [dbo].[AST_QR_IN_TMP]    Script Date: 02/28/2021 23:46:58 ******/
@@ -218,22 +212,13 @@ GO
 SET ANSI_PADDING OFF
 GO
 
-USE [FINN_ADMIFARM]
-GO
-
 INSERT [dbo].[AST_QR_IN_TMP] ( 
 VER,	FECHA_COMPROBANTE,	CUIT_EMISOR,	TIPO_COMPROBANTE,	PUNTO_VENTA,	NUMERO_COMPROBANTE,	IMPORTE_TOTAL,	MONEDA,	MONEDA_CTZ,	TIPODOC_RC,	NRODOC_RC,		TIPOCODAUT,	CODAUT,           AS_ID ) VALUES (
 1,		'20210208',			'30712386734',	'01',				'0023',			'00000094',			'4174500',		'PES',	'100',		'80',		'30715468340',	'E',		'71064452970189', 866614 )
 
-USE [FINN_ADMIFARM]
-GO
-
 /****** Object:  StoredProcedure [dbo].[AST_QR_IN]    Script Date: 03/01/2021 00:01:30 ******/
 IF  EXISTS (SELECT * FROM sys.objects WHERE object_id = OBJECT_ID(N'[dbo].[AST_QR_IN]') AND type in (N'P', N'PC'))
 DROP PROCEDURE [dbo].[AST_QR_IN]
-GO
-
-USE [FINN_ADMIFARM]
 GO
 
 /****** Object:  StoredProcedure [dbo].[AST_QR_IN]    Script Date: 03/01/2021 00:01:30 ******/
@@ -260,6 +245,7 @@ BEGIN
 	INTO #tmp
 	FROM [dbo].[AST_QR_IN_TMP]
 	
+	declare @bd_actual varchar(100) = db_name()
 	declare @jsonQr varchar(8000)
 	declare @as_id varchar(20)
 	SELECT @as_id=convert(varchar, as_id)
@@ -280,7 +266,7 @@ BEGIN
 	FROM [dbo].[AST_QR_IN_TMP]
 
 	declare @sql varchar(8000)
-	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' FINN_ADMIFARM d: \FacturaElectronicaAfip\Java\generaQr'
+	select @sql = 'd:\FacturaElectronicaAfip\Java\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' '+@bd_actual+' d: \FacturaElectronicaAfip\Java\generaQr'
 	select @sql
 
 	exec master..xp_cmdshell @sql

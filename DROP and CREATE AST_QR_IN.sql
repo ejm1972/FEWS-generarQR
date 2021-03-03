@@ -79,6 +79,7 @@ FROM
 WHERE Asiento.AS_ID = @@AS_ID  
 
 --INI-GENERAQR----------------------------------------
+	declare @bd_actual varchar(100) = db_name()
 	declare @jsonQr varchar(8000)
 	declare @as_id varchar(20)
 	select @as_id=convert(varchar, as_id)
@@ -99,7 +100,7 @@ WHERE Asiento.AS_ID = @@AS_ID
 	from #tmp
 
 	declare @sql varchar(8000)
-	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' FINN_ADMIFARM c: \generaQr'
+	select @sql = 'c:\generaQr\ejecutar.bat "{'+@jsonQr+'}" '+@as_id+' '+@bd_actual+' c: \generaQr'
 	--select @sql
 
 	exec master..xp_cmdshell @sql
