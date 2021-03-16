@@ -92,8 +92,13 @@ WHERE Asiento.AS_ID = @@AS_ID
 		+',"importe":'+importe_total
 		+',"moneda":"'+moneda
 		+'","ctz":'+moneda_ctz
-		+',"tipoDocRec":'+tipodoc_rc
-		+',"nroDocRec":'+nrodoc_rc
+		
+		case when tipodoc_rc <> '' and nrodoc_rc <> '' and tipodoc_rc is not null and nrodoc_rc is not null then
+			',"tipoDocRec":'+tipodoc_rc+',"nroDocRec":'+nrodoc_rc
+		else 
+			''
+		end
+		
 		+',"tipoCodAut":"'+tipocodaut
 		+'","codAut":"'+codaut
 		+'"'
