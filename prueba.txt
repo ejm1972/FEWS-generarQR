@@ -1,0 +1,1 @@
+java -jar generaqr.jar "{"ver":1,"fecha":"20210401","cuit":30710092792,"ptoVta":0003,"tipoCmp":01,"nroCmp":00000443,"importe":555390,"moneda":"PES","ctz":100,"tipoDocRec":80,"nroDocRec":30517537620,"tipoCodAut":"E","codAut":"71132105785071"}" 5335 finn_icsa 
