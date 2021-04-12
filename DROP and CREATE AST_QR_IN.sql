@@ -123,3 +123,6 @@ SELECT AS_ID, AST_QR, * FROM ASIENTO WHERE AS_ID=866614
 GO
 
 
+update Asiento
+set AST_QR = convert(varbinary, 'ahshshsajsajsajsahshsahsahsahjsajsajsa')
+where as_id = 866614

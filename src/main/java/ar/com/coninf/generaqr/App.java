@@ -32,6 +32,9 @@ public class App {
         Integer asId = Integer.valueOf(args[1]);
         String baseDato = args[2];
         
+        if (args.length>=4 && (args[3].equals("trace") || args[3].equals("debug")))
+        	System.setProperty(org.slf4j.impl.SimpleLogger.DEFAULT_LOG_LEVEL_KEY, args[3]);
+        
 		Gson gson = new Gson();
 		GeneradorQr gen = new GeneradorQr();
 		RespuestaQr resp = null;
@@ -56,11 +59,12 @@ public class App {
 		try {
 			DatoQr datoQr = gson.fromJson(json, DatoQr.class);
 			resp = gen.generar(datoQr);	
-			log.debug(resp.getTextoQr());
+			log.debug("resp.getTextoQr()=" + resp.getTextoQr());
 			
 			Asiento asiento = new Asiento();
 			asiento.setAsId(asId);
 			asiento.setAstQr(resp.getImagenQr());
+			log.info("asiento.toString()=" + asiento.toString());
 			asientoRepo.modify(asiento);
 			asientoRepo.close();
 			log.info("asientoRepo.modify()=" + asiento.toString());
@@ -78,10 +82,10 @@ public class App {
         try (InputStream input = new FileInputStream("generaQr.properties")) {
             prop = new Properties();
 			prop.load(input);
-            if (log.isTraceEnabled()) {
-	            log.trace(prop.entrySet().toString());
+            if (log.isDebugEnabled()) {
+	            log.debug(prop.entrySet().toString());
 	            for (Entry<Object,Object> key:prop.entrySet()) {
-	            	log.trace(prop.get(key.getKey()).toString());
+	            	log.debug(prop.get(key.getKey()).toString());
 	            }
             }   
 	    } catch (IOException e) {
